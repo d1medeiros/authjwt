@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.LoginResponseDTO;
 import com.example.demo.model.Login;
 import com.example.demo.model.User;
 import com.example.demo.service.LoginService;
@@ -23,8 +24,12 @@ public class LoginControllerImpl implements LoginController {
     private final LoginServiceImpl loginService;
 
     @PostMapping
-    public ResponseEntity<User> authenticate(@Valid @RequestBody Login login) {
-        User user = loginService.authenticate(login);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+    public ResponseEntity<LoginResponseDTO> authenticate(@Valid @RequestBody Login login) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(LoginResponseDTO
+                        .builder()
+                        .sessionToken(loginService.authenticate(login))
+                        .build());
     }
 }

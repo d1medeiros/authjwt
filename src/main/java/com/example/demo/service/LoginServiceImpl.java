@@ -19,11 +19,11 @@ public class LoginServiceImpl implements LoginService {
     private final DigestComponent digestComponent;
 
     @Override
-    public User authenticate(Login login) {
+    public String authenticate(Login login) {
         User user = userRepository.findByUsername(login.getUsername())
                 .orElseThrow(() -> new RuntimeException("não encontrado"));
         digestComponent.matches(login.getPassword(), user.getPassword());
-        return user;
+        return tokenComponent.generate(user.getUsername());
     }
 
     @Override

@@ -10,6 +10,6 @@ public interface LoginService {
     UserRepository getUserRepository();
     TokenComponent getTokenComponent();
     DigestComponent getDigestComponent();
-    User authenticate(Login login);
+    String authenticate(Login login);
     boolean validate(Login login, User user);
 }
