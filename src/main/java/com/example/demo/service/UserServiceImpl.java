@@ -1,15 +1,15 @@
 package com.example.demo.service;
 
 import com.example.demo.component.DigestComponent;
-import com.example.demo.component.UserFactory;
 import com.example.demo.model.User;
-import com.example.demo.model.UserCreate;
-import com.example.demo.model.UserUpdate;
 import com.example.demo.repository.UserRepository;
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.example.demo.component.UserFactory;
+import com.example.demo.model.UserCreate;
+import com.example.demo.model.UserUpdate;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 
@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserCreate userCreate) {
-        String password = digestComponent.run(userCreate.getUsername(), userCreate.getPassword());
-        User user = userFactory.create(userCreate.getUsername(), password);
+        String password = digestComponent.runCreate(userCreate);
+        User user = userFactory.build(userCreate.getUsername(), password);
         return userRepository.save(user);
     }
 
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(UserUpdate userUpdate) {
-        User user = userFactory.update(userUpdate.isActive()).apply(userUpdate);
-        return userRepository.save(user);
+//        User user = userFactory.update(userUpdate.isActive());
+        return userRepository.save(null);
     }
 }

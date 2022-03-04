@@ -10,8 +10,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 
 public interface UserService {
-    UserRepository getRepository();
-    DigestComponent getDigest();
+    UserRepository getUserRepository();
+    DigestComponent getDigestComponent();
     User create(UserCreate userCreate);
     List<User> find(JsonNode userFind);
     User update(UserUpdate userCreate);

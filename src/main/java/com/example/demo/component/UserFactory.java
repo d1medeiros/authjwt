@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 @Component
 public class UserFactory {
-    public User create(String username, String password) {
+    public User build(String username, String password) {
         return User.builder()
                 .username(username)
                 .password(password)
