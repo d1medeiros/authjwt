@@ -14,7 +14,7 @@ public interface UserController {
 
     ResponseEntity<User> create(UserCreate userCreate);
 
-    ResponseEntity<User> update(Long id, UserUpdate userUpdate);
+    ResponseEntity<User> update(String id, UserUpdate userUpdate);
 
     ResponseEntity<List<User>> find(JsonNode userFind);
 }

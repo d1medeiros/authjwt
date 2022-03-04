@@ -13,13 +13,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
 
-    private Long id = 1L;
+    private String id = "1";
     private String password = "password";
 
     @InjectMocks
@@ -52,7 +54,7 @@ public class UserServiceImplTest {
     @Test
     @DisplayName("Atualização de Usuário")
     void update() {
-        when(userRepository.getById(id)).thenReturn(user);
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
         when(userUpdate.isActive()).thenReturn(false);
         when(userRepository.save(user)).thenReturn(savedUser);
         User result = userService.update(id, userUpdate);

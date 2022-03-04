@@ -12,6 +12,7 @@ import com.example.demo.model.UserUpdate;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Service
@@ -35,8 +36,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(Long id, UserUpdate userUpdate) {
-        User user = userRepository.getById(id);
+    public User update(String id, UserUpdate userUpdate) {
+        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
         user.setActive(userUpdate.isActive());
         return userRepository.save(user);
     }

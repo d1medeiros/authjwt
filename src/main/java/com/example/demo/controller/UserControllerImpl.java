@@ -33,7 +33,7 @@ public class UserControllerImpl implements UserController {
 
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @Valid @RequestBody UserUpdate userUpdate) {
+    public ResponseEntity<User> update(@PathVariable String id, @Valid @RequestBody UserUpdate userUpdate) {
         return ResponseEntity.ok(userService.update(id, userUpdate));
     }
 
