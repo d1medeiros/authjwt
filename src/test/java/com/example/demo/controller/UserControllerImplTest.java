@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerImplTest {
+
     @Autowired
     private MockMvc mvc;
 
@@ -30,6 +31,6 @@ public class UserControllerImplTest {
                 .content(TestUtil.readJsonFile("create-user.json"));
 
         final ResultActions result = mvc.perform(request)
-                .andExpect(status().isNoContent());
+                .andExpect(status().isCreated());
     }
 }
