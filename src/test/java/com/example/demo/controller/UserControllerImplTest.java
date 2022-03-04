@@ -18,6 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserControllerImplTest {
 
+    private String id = "1";
+
     @Autowired
     private MockMvc mvc;
 
@@ -29,6 +31,19 @@ public class UserControllerImplTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(TestUtil.readJsonFile("create-user.json"));
+
+        final ResultActions result = mvc.perform(request)
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    @SneakyThrows
+    void updateUser() {
+        final MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .put("/user", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(TestUtil.readJsonFile("update-user.json"));
 
         final ResultActions result = mvc.perform(request)
                 .andExpect(status().isCreated());
