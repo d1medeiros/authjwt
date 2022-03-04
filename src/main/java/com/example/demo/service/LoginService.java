@@ -1,14 +1,15 @@
 package com.example.demo.service;
 
+import com.example.demo.component.DigestComponent;
 import com.example.demo.component.TokenComponent;
 import com.example.demo.model.Login;
 import com.example.demo.model.User;
-import com.example.demo.repository.LoginRepository;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.repository.UserRepository;
 
 public interface LoginService {
-    LoginRepository getLoginRepository();
+    UserRepository getUserRepository();
     TokenComponent getTokenComponent();
-    ResponseEntity authenticate(Login login);
+    DigestComponent getDigestComponent();
+    User authenticate(Login login);
     boolean validate(Login login, User user);
 }
