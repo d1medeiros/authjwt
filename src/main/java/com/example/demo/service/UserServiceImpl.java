@@ -11,6 +11,7 @@ import com.example.demo.model.UserCreate;
 import com.example.demo.model.UserUpdate;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,8 @@ public class UserServiceImpl implements UserService {
     public User create(UserCreate userCreate) {
         String password = digestComponent.runCreate(userCreate);
         User user = userFactory.build(userCreate.getUsername(), password);
+        user.setDateCreate(LocalDateTime.now());
+        user.setLastUpdate(LocalDateTime.now());
         return userRepository.save(user);
     }
 
@@ -39,6 +42,7 @@ public class UserServiceImpl implements UserService {
     public User update(String id, UserUpdate userUpdate) {
         User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
         user.setActive(userUpdate.isActive());
+        user.setLastUpdate(LocalDateTime.now());
         return userRepository.save(user);
     }
 }

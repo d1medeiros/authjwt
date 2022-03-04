@@ -28,13 +28,4 @@ public class User {
     private LocalDateTime dateCreate;
     private LocalDateTime lastUpdate;
     private boolean active;
-
-    public void prePersist() {
-        dateCreate = LocalDateTime.now();
-        lastUpdate = LocalDateTime.now();
-    }
-
-    public void preUpdate() {
-        lastUpdate = LocalDateTime.now();
-    }
 }
