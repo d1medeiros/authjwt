@@ -14,6 +14,22 @@ configurations {
 	}
 }
 
+test {
+	failFast(true)
+	minHeapSize = "256m"
+	maxHeapSize = "720m"
+	jvmArgs("-Xms2048m", "-Xmx2048m")
+	afterTest { desc, result ->
+		logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+	}
+	afterSuite { desc, result ->
+		if (!desc.parent) {
+			println "\nTest result: ${result.resultType}"
+			println "Test summary: ${result.testCount} tests, ${result.successfulTestCount} succeeded, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped"
+		}
+	}
+}
+
 repositories {
 	mavenCentral()
 }
@@ -28,7 +44,14 @@ dependencies {
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//TEST
+	runtimeOnly 'com.h2database:h2'
+	testImplementation('com.squareup.okhttp3:mockwebserver')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('org.mockito:mockito-inline')
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
