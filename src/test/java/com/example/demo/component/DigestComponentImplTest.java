@@ -1,21 +1,28 @@
 package com.example.demo.component;
 
+import com.example.demo.UnitTest;
 import com.example.demo.model.UserCreate;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 
-@SpringBootTest
-class DigestComponentImplTest {
+class DigestComponentImplTest extends UnitTest {
 
-    @Autowired
+    @InjectMocks
     DigestComponentImpl digestComponent;
+
+    @BeforeEach
+    public void setup() {
+        ReflectionTestUtils.setField(digestComponent, "encoder", new BCryptPasswordEncoder());
+    }
 
     @Test
     @DisplayName("Testa criptografia")
-    void runCreate() {
+    void validateCrypto() {
         String password = "123456";
         UserCreate user = UserCreate.builder().username("rodrigo").password(password.toCharArray()).build();
         String hash = digestComponent.runCreate(user);
@@ -24,7 +31,7 @@ class DigestComponentImplTest {
 
     @Test
     @DisplayName("Verifica se as senhas combinam")
-    void matches() {
+    void validateMatch() {
         String password = "123456";
         UserCreate user = UserCreate.builder().username("rodrigo").password(password.toCharArray()).build();
         String hash = digestComponent.runCreate(user);
@@ -32,12 +39,11 @@ class DigestComponentImplTest {
     }
 
     @Test
-    @DisplayName("Verifica se as senhas não combinam")
-    void matches2() {
+    @DisplayName("A verificação de senha deve falhar quando as senhas forem diferentes")
+    void shouldFailOnMatch() {
         String password = "123456";
-        String password2 = "1234567";
         UserCreate user = UserCreate.builder().username("rodrigo").password(password.toCharArray()).build();
         String hash = digestComponent.runCreate(user);
-        digestComponent.matches(password2.toCharArray(), hash);
+        Assertions.assertThrows(RuntimeException.class, () -> digestComponent.matches("1234567".toCharArray(), hash));
     }
 }
