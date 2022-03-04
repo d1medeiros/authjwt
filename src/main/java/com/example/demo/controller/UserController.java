@@ -7,14 +7,14 @@ import com.example.demo.service.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.http.ResponseEntity;
 
-import javax.validation.Valid;
+import java.util.List;
 
 public interface UserController {
     UserService getUserService();
 
-    ResponseEntity<User> create(@Valid UserCreate userCreate);
+    ResponseEntity<User> create(UserCreate userCreate);
 
-    ResponseEntity<User> update(@Valid UserUpdate userCreate);
+    ResponseEntity<User> update(Long id, UserUpdate userUpdate);
 
-    ResponseEntity<User> find(JsonNode userFind);
+    ResponseEntity<List<User>> find(JsonNode userFind);
 }
