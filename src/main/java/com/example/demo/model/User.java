@@ -5,36 +5,35 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
-@Entity
+@Document
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Column(unique = true, nullable = false)
+    private String id;
+    @Indexed(unique = true)
     private String username;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(nullable = false)
+    @Field(write = Field.Write.NON_NULL)
     private String password;
     private LocalDateTime dateCreate;
     private LocalDateTime lastUpdate;
     private boolean active;
 
-    @PrePersist
     public void prePersist() {
         dateCreate = LocalDateTime.now();
         lastUpdate = LocalDateTime.now();
     }
 
-    @PreUpdate
     public void preUpdate() {
         lastUpdate = LocalDateTime.now();
     }

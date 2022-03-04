@@ -1,13 +1,14 @@
 spring:
-  datasource:
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: password
-    url: jdbc:h2:mem:authjwttest
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: create-drop
+  main:
+    banner-mode: off
+    cloud-platform: kubernetes
+  lifecycle:
+    timeout-per-shutdown-phase: 60s
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+  data:
+    mongodb:
+      uri: mongodb://localhost:42789/test
 auth:
   jwt:
     expiration: 21600000
