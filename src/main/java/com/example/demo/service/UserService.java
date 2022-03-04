@@ -14,7 +14,7 @@ public interface UserService {
     DigestComponent getDigestComponent();
     User create(UserCreate userCreate);
     List<User> find(JsonNode userFind);
-    User update(UserUpdate userCreate);
+    User update(Long id, UserUpdate userCreate);
 }
 
 
