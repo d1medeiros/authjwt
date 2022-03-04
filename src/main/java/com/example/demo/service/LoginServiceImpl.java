@@ -22,7 +22,7 @@ public class LoginServiceImpl implements LoginService {
     public User authenticate(Login login) {
         User user = userRepository.findByUsername(login.getUsername())
                 .orElseThrow(() -> new RuntimeException("não encontrado"));
-        digestComponent.match(login.getPassword(), user.getPassword());
+        digestComponent.matches(login.getPassword(), user.getPassword());
         return user;
     }
 

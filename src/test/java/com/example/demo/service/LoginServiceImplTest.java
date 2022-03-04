@@ -11,6 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -18,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class LoginServiceImplTest {
 
@@ -46,7 +49,7 @@ class LoginServiceImplTest {
         when(user.getPassword()).thenReturn(userPassword);
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
         User result = loginService.authenticate(login);
-        verify(digestComponent).match(loginPassword, userPassword);
+        verify(digestComponent).matches(loginPassword, userPassword);
         assertNotNull(result);
     }
 
@@ -58,6 +61,6 @@ class LoginServiceImplTest {
         when(user.getPassword()).thenReturn(userPassword);
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
         assertThrows(RuntimeException.class, () -> loginService.authenticate(login));
-        verify(digestComponent, never()).match(any(), anyString());
+        verify(digestComponent, never()).matches(any(), anyString());
     }
 }
