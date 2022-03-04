@@ -35,8 +35,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(UserUpdate userUpdate) {
-//        User user = userFactory.update(userUpdate.isActive());
-        return userRepository.save(null);
+    public User update(Long id, UserUpdate userUpdate) {
+        User user = userRepository.getById(id);
+        user.setActive(userUpdate.isActive());
+        return userRepository.save(user);
     }
 }
